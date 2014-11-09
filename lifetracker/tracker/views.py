@@ -5,7 +5,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 
 from tracker.models import *
-from tracker.forms import * 
+#from tracker.forms import * 
 #import tracker.graph as flot
 
 # Create your views here.
@@ -14,20 +14,22 @@ from tracker.forms import *
 def tracker_page(request):
     user = User.objects.get(username=request.user)
     pad = user.pad.name
-    notifications = Events.objects.order_by('-date')[:6]
-    todos = Todo.objects.filter(done=False)
-
-    
+    notifications = user.events.order_by('-date')[:6]
+    todos = user.todo.filter(done=False)
+    daily = user.daily_events()
+    tomorrow = user.tomorrow_events()
+    later = user.later_events()
     
     c = {
             'pad': pad,
             'notifications': notifications,
             'todos': todos,
             'daily': daily,
-            'tomorrow': tommorow,
+            'tomorrow': tomorrow,
             'later': later,
 
             }
+    return render(request, 'tracker_page.html', c)
 
 @login_required
 def door_opener(request):

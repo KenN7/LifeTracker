@@ -5,5 +5,6 @@ admin.site.register(Todo)
 admin.site.register(Events)
 admin.site.register(Icon)
 admin.site.register(Period)
+admin.site.register(Pad)
 # Register your models here.
 

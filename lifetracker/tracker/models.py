@@ -3,6 +3,8 @@ from django.contrib import auth
 #from django.db.models import Sum
 from django.core.validators import RegexValidator
 #from colorful import fields
+import datetime
+
 
 # Create your models here.
 class User(auth.models.User):
@@ -10,15 +12,24 @@ class User(auth.models.User):
     class Meta:
         proxy = True
 
-    def bla(self):
-        pass
+    def daily_events(self):
+        today = datetime.datetime.today()
+        return self.events.filter(date__year=today.year, date__month=today.month, date__day=today.day)
+
+    def tomorrow_events(self):
+        today = datetime.datetime.today()
+        return self.events.filter(date__year=today.year, date__month=today.month, date__day=today.day+1)
+
+    def later_events(self):
+        today = datetime.datetime.today()
+        return self.events.filter(date__gt=today)
 
 
 class Period(models.Model):
     frequency = models.IntegerField()
 
     def __str__(self):
-        return self.frequency
+        return str(self.frequency)
 
 
 class Pad(models.Model):
@@ -31,7 +42,7 @@ class Pad(models.Model):
 
 class Icon(models.Model):
     name = models.CharField(max_length=30)
-    path = models.FilePathField()
+    path = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
@@ -43,12 +54,13 @@ class Events(models.Model):
         ('Event', 'Event'),
     )
     name = models.CharField(max_length=50)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField()
     desc = models.TextField()
     author = models.ForeignKey(User, related_name='events')
     recurent = models.ForeignKey(Period, related_name='events')
     icon = models.ForeignKey(Icon, related_name='events')
     eventtype = models.CharField(max_length=20, choices=TYPES, default='Event')
+
 
     def __str__(self):
         return self.name

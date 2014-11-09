@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+<!-- first row left -->
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+		<h2 class="panel-title"> Events<span class="badge">{{ daily.count }}</span></h3>
+	</div>
+	{% if daily.count %}
+    <div class="panel-body">
+		{% for event in daily %}
+	  <span class="glyphicon glyphicon-hand-right"></span>
+		<small>
+			{{ event.name }}.
+		</small>
+		{% endfor %}
+    </div>
+    {% else %}
+    <div class="panel-body">
+		No events today
+    </div>
+    {% endif %}
+  </div>
+ </div>
+ <!-- first row right -->
+ <div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+		<h2 class="panel-title"> Events<span class="badge">#daily events number</span></h3>
+	</div>
+    <div class="panel-body">
+	      body
+    </div>
+  </div>
+ </div>
+ 
+ </div>
+ <!-- 2nd row left -->
+ <div class="row">
+
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+		<h2 class="panel-title"> Events<span class="badge">#daily events number</span></h3>
+	</div>
+    <div class="panel-body">
+	   
+    </div>
+  </div>
+ </div>
+ <!-- 2nd row right -->
+ <div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+		<h2 class="panel-title"> Events<span class="badge">#daily events number</span></h3>
+	</div>
+    <div class="panel-body">
+	      body
+    </div>
+  </div>
+ </div>
+ 
+ </div>
+ <!-- 3rd row left -->
+ <div class="row">
+
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+		<h2 class="panel-title"> Events<span class="badge">#daily events number</span></h3>
+	</div>
+    <div class="panel-body">
+	      body
+    </div>
+  </div>
+ </div>
+ <!-- 3rd row right -->
+ <div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+		<h2 class="panel-title"> Events<span class="badge">#daily events number</span></h3>
+	</div>
+    <div class="panel-body">
+	      body
+    </div>
+  </div>
+ </div>
+ 
+ </div>
+
+{% endblock %}
+
+
+{% block js_end %}
+
+
+{% endblock %}
