@@ -5,10 +5,13 @@ class Msg:
 		self.args = args
 		
 	def __getattr__(self,attr):
-		return self.arg[attr]
+		return self.args[attr]
 		
 		
 def returnDict(msg):
-	
-	
+	m = msg.strip().split()
+	d = dict()
+	for n,i in enumerate(m):
+		d["at%i" % n] = i
+	return d
 	

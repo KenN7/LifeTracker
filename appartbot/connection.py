@@ -5,7 +5,7 @@ from socket import *
 import time
 import logging
 import queue
-import message
+from message import *
 
 class MsgGetter(threading.Thread):
 	
@@ -28,7 +28,7 @@ class MsgGetter(threading.Thread):
 			con, client = self.sock.accept()
 			data = con.recv(16)
 			self.logging.warn(data)
-			m = Msg(message.returnDict(data))
+			m = Msg(returnDict(data))
 			self.queue.put(m)
 			#listen socket
 		

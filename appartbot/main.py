@@ -2,10 +2,15 @@
 
 import logging
 import loader
+from settings import *
+from connection import MsgGetter
+
 
 def main():
-	#bla bla tweeter
-	bot = loader.Bot(bla, bla)
+	
+	bot = loader.Bot("tweet", HOST, PORT, logging)
+	th = MsgGetter(bot)
+	th.start()
 	bot.run()
 	
 	return 0
