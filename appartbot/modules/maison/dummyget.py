@@ -13,4 +13,7 @@ class DummyGet(Module):
         
     def action(self, msg):
         self.bot.logging.warn('le message est :')
-        print(msg.at0, msg.at1, msg.at2)
+        try:
+            print(msg.at0, msg.at1, msg.at2)
+        except:
+            print(msg.at0)
