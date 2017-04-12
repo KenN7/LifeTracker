@@ -3,16 +3,20 @@ from django.contrib import auth
 #from django.db.models import Sum
 from django.core.validators import RegexValidator
 #from colorful import fields
-import datetime
+from django.utils import timezone
+import paho.mqtt.publish as pub
+
+#import datetime
 
 
 # Create your models here.
 class User(auth.models.User):
-    
+
     class Meta:
         proxy = True
-        
-    pass
+
+    def actusensors(self):
+        return self.actusensor.all()
     #def daily_events(self):
         #today = datetime.datetime.today()
         #return self.events.filter(date__year=today.year, date__month=today.month, date__day=today.day)
@@ -67,29 +71,33 @@ class Todo(models.Model):
     def __str__(self):
         return self.name
 
-class Command(models.Model):
-    name = models.CharField(max_length=30)
-    command = models.CharField(max_length=50)
-    actusensor = models.ForeignKey(Sensor, related_name='sensor')
-    
-    def __str__(self):
-        return self.name
-    
-class Data(models.Model):
-    name = models.CharField(max_length=30)
-    value = models.CharField(max_length=50)
-    actusensor = models.ForeignKey(Sensor, related_name='data')
-    
-    def __str__(self):
-        return self.name
 
 class Actusensor(models.Model):
     name = models.CharField(max_length=30)
+    date = models.DateTimeField(default=timezone.now)
     owner = models.ForeignKey(User, related_name='actusensor')
-    apikey = models.CharField(max_length=30)
-    address = models.CharField(max_length=30)
+    topic = models.CharField(max_length=30)
     image = models.CharField(max_length=50)
+    host = models.CharField(max_length=30)
 
     def __str__(self):
         return self.name
 
+class Command(models.Model):
+    name = models.CharField(max_length=30)
+    command = models.CharField(max_length=50)
+    actusensor = models.ForeignKey(Actusensor, related_name='sensor')
+
+    def __str__(self):
+        return self.name
+    
+    def send(self, message):
+        pub.single(actusensor.topic, payload=message, hostname=host)
+
+class Data(models.Model):
+    name = models.CharField(max_length=30)
+    value = models.CharField(max_length=50)
+    actusensor = models.ForeignKey(Actusensor, related_name='data')
+
+    def __str__(self):
+        return self.name
